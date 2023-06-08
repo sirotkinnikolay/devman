@@ -1,13 +1,27 @@
 import requests
 
-site = "https://wttr.in//"
+site_url = "http://wttr.in//"
 
-urls = [
+locations = [
     'London?n?M?qTqu&lang=ru',
     'svo?n?M?qTqu&lang=ru',
     'Череповец?n?M?qTqu&lang=ru'
-        ]
-for url in urls:
-    response = requests.get(f'{site}{url}')
-    print(response.text)
-    print('-' * 63)
+]
+
+
+def script(urls, site):
+    for url in urls:
+        try:
+            response = requests.get(f'{site}{url}')
+            if response.ok:
+                print(response.text)
+                print('-' * 63)
+            else:
+                return None
+        except requests.exceptions.ConnectionError as connect:
+            print(connect)
+            break
+
+
+if __name__ == '__main__':
+    script(locations, site_url)
